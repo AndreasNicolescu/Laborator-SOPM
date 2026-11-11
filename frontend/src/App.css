@@ -1,0 +1,138 @@
+:root {
+  --bg: #e9eff5;
+  --surface: #ffffff;
+  --ink: #13283b;
+  --muted: #5c7084;
+  --line: #d3dde7;
+  --accent: #1f5fbf;
+  --accent-ink: #ffffff;
+  --sun: #e8a317;
+  --user: #1f5fbf;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e1824;
+    --surface: #16263a;
+    --ink: #e6eef7;
+    --muted: #93a7bc;
+    --line: #26394f;
+    --accent: #5b9bf0;
+    --accent-ink: #0e1824;
+    --sun: #f3b73d;
+    --user: #2a63b8;
+  }
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Figtree", system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+.app {
+  max-width: 640px;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px 16px;
+}
+
+header h1 {
+  font-family: "Bricolage Grotesque", system-ui, sans-serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+header p { margin: 2px 0 14px; color: var(--muted); }
+
+.chat {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px 2px 12px;
+}
+
+.msg { display: flex; flex-direction: column; gap: 8px; max-width: 88%; }
+.msg.user { align-self: flex-end; align-items: flex-end; }
+.msg.assistant { align-self: flex-start; }
+
+.bubble {
+  padding: 10px 14px;
+  border-radius: 16px;
+  white-space: pre-wrap;
+}
+.assistant .bubble { background: var(--surface); border: 1px solid var(--line); border-top-left-radius: 4px; }
+.user .bubble { background: var(--user); color: #fff; border-top-right-radius: 4px; }
+
+.typing { display: flex; gap: 5px; padding: 14px; }
+.typing i {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--muted);
+  animation: blink 1.2s infinite ease-in-out;
+}
+.typing i:nth-child(2) { animation-delay: .15s; }
+.typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes blink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+
+/* card meteo: temperatura mare este elementul central */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  width: min(420px, 100%);
+}
+.card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.city { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 1.3rem; }
+.sub { color: var(--muted); font-size: .92rem; }
+.temp {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 700;
+  font-size: 3.6rem;
+  line-height: 1;
+  color: var(--sun);
+}
+.stats { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 10px; color: var(--muted); font-size: .9rem; }
+
+.forecast {
+  display: flex; gap: 8px; margin-top: 14px; padding-top: 12px;
+  border-top: 1px solid var(--line);
+  overflow-x: auto;
+}
+.day { min-width: 64px; text-align: center; }
+.day-name { font-size: .8rem; color: var(--muted); }
+.day-temp { font-weight: 600; }
+.day-temp small { color: var(--muted); font-weight: 400; }
+.day-rain { font-size: .8rem; color: var(--accent); }
+
+.chips { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.chips button {
+  background: transparent; color: var(--accent);
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 7px 14px; font: inherit; cursor: pointer; text-align: left;
+}
+.chips button:hover { border-color: var(--accent); }
+
+.composer { display: flex; gap: 8px; padding-top: 8px; }
+.composer input {
+  flex: 1; min-width: 0;
+  padding: 12px 14px; font: inherit;
+  color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 12px;
+}
+.composer button {
+  padding: 0 20px; font: inherit; font-weight: 600;
+  background: var(--accent); color: var(--accent-ink);
+  border: 0; border-radius: 12px; cursor: pointer;
+}
+.composer button:disabled { opacity: .5; cursor: default; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .typing i { animation: none; opacity: .6; } }

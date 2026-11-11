@@ -1,0 +1,60 @@
+WEATHER CHATBOT - COMENZI IN ORDINE (PowerShell)
+
+Se folosesc 2 terminale PowerShell.
+
+
+=== INSTALARE (doar prima data) ===
+
+Terminal 1:
+
+cd "D:\Visual Studio\Laborator SOPM\weather-chatbot"
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+cd backend
+pip install -r requirements.txt
+copy .env.example .env
+
+Terminal 2:
+
+cd "D:\Visual Studio\Laborator SOPM\weather-chatbot\frontend"
+npm install
+
+
+=== PORNIRE (de fiecare data) ===
+
+Terminal 1 (backend):
+
+cd "D:\Visual Studio\Laborator SOPM\weather-chatbot"
+.venv\Scripts\Activate.ps1
+cd backend
+uvicorn main:app --reload --port 8000
+
+Terminal 2 (frontend):
+
+cd "D:\Visual Studio\Laborator SOPM\weather-chatbot\frontend"
+npm run dev
+
+Deschide in browser: http://localhost:5173
+
+
+=== OPRIRE ===
+
+Ctrl + C in fiecare terminal.
+
+
+=== OPTIONAL: AI (Claude) ===
+
+1. Pune cheia in backend\.env:  ANTHROPIC_API_KEY=cheia_ta
+2. Reporneste backend-ul.
+Fara cheie, chatbotul merge in mod simplu (fara AI).
+
+
+=== DACA APAR ERORI ===
+
+- "running scripts is disabled" la Activate.ps1:
+  Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+
+- "python not found": instaleaza Python de pe python.org
+  (bifeaza "Add python.exe to PATH"), apoi deschide un terminal nou.
+
+- "Nu mă pot conecta la server" in chat: backend-ul nu ruleaza (Terminal 1).
