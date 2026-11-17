@@ -1,0 +1,7 @@
+# Ignorăm fișierele mari, executabilele și folderele de build
+node_modules/
+venv/
+release/
+dist/
+extra/
+*.exe
