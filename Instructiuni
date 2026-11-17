@@ -1,12 +1,10 @@
 WEATHER CHATBOT - COMENZI IN ORDINE (PowerShell)
 
-Se folosesc 2 terminale PowerShell.
-
+Se folosesc 2 sau 3 terminale PowerShell, in functie de platforma testata.
 
 === INSTALARE (doar prima data) ===
 
-Terminal 1:
-
+Terminal 1 (Backend):
 cd "D:\Visual Studio\Laborator SOPM\weather-chatbot"
 python -m venv .venv
 .venv\Scripts\Activate.ps1
@@ -15,27 +13,45 @@ pip install -r requirements.txt
 pip install pyinstaller
 copy .env.example .env
 
-Terminal 2:
-
+Terminal 2 (Web/Desktop):
 cd "D:\Visual Studio\Laborator SOPM\weather-chatbot\frontend"
 npm install
 
+Terminal 3 (Mobil):
+cd "D:\Visual Studio\Laborator SOPM\weather-chatbot\frontend-mobile"
+npm install
 
-=== PORNIRE IN BROWSER (de fiecare data) ===
 
-Terminal 1 (backend):
+=== PORNIRE SERVER BACKEND (Obligatoriu pentru toate) ===
 
+Terminal 1 (Backend):
 cd "D:\Visual Studio\Laborator SOPM\weather-chatbot"
 .venv\Scripts\Activate.ps1
 cd backend
-uvicorn main:app --reload --port 8000
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
-Terminal 2 (frontend):
+(Atentie: parametrul "--host 0.0.0.0" este obligatoriu pentru ca telefonul sa se poata conecta la laptop).
 
+
+=== PORNIRE INTERFATA WEB (Browser) ===
+
+Terminal 2 (Web):
 cd "D:\Visual Studio\Laborator SOPM\weather-chatbot\frontend"
 npm run dev
 
 Deschide in browser: http://localhost:5173
+
+
+=== APLICATIE MOBIL (React Native / Expo) ===
+
+Inainte de a porni, asigura-te ca in fisierul "frontend-mobile\App.js" la comanda "fetch", adresa arata asa: "http://IP_UL_TAU:8000/api/chat". 
+(Afla IP-ul ruland comanda "ipconfig" in PowerShell si cautand "IPv4 Address" la "Wireless LAN adapter Wi-Fi", ex: 192.168.1.11).
+
+Terminal 3 (Mobil):
+cd "D:\Visual Studio\Laborator SOPM\weather-chatbot\frontend-mobile"
+npx expo start
+
+Deschide aplicatia "Expo Go" pe telefon (iPhone/Android) si scaneaza codul QR de pe ecran. Laptopul si telefonul trebuie sa fie pe aceeasi retea Wi-Fi.
 
 
 === APLICATIE DESKTOP (.exe) ===
@@ -45,7 +61,7 @@ Deschide in browser: http://localhost:5173
 1. Pregatirea backend-ului (Terminal 1 - cu venv activat):
    cd backend
    pyinstaller --onefile --windowed run_server.py
-   * Copiaza manual fisierul generat din "backend\dist\run_server.exe" in folderul "frontend\extra\"
+- Copiaza manual fisierul generat din "backend\dist\run_server.exe" in folderul "frontend\extra\"
 
 2. Crearea executabilului (Terminal 2):
    cd "D:\Visual Studio\Laborator SOPM\weather-chatbot\frontend"
@@ -58,7 +74,7 @@ Instaleaza-l sau ruleaza-l (acest executabil porneste automat atat interfata cat
 
 === OPRIRE ===
 
-Ctrl + C in fiecare terminal (doar pentru varianta de Browser/Dezvoltare).
+Ctrl + C in fiecare terminal (pentru variantele de Browser, Mobil si Dezvoltare).
 
 
 === OPTIONAL: AI (Claude) ===
@@ -76,4 +92,8 @@ Fara cheie, chatbotul merge in mod simplu (fara AI).
 - "python not found": instaleaza Python de pe python.org
   (bifeaza "Add python.exe to PATH"), apoi deschide un terminal nou.
 
-- "Nu mă pot conecta la server" in chat: backend-ul nu ruleaza (Terminal 1).
+- "Eroare de conexiune" / "Nu mă pot conecta la server" in aplicatia de mobil:
+  Verifica daca ai pus IP-ul corect de Wi-Fi in App.js (nu folosi IP de VirtualBox, gen 192.168.56.1). Verifica daca backend-ul ruleaza corect cu "--host 0.0.0.0".
+
+- In chat nu apare raspunsul (pe mobil):
+  Asigura-te ca in App.js structura de trimitere transforma corect istoricul in cerinta asteptata de FastAPI ( { "messages": [ { "role": "...", "content": "..." } ] } ).
