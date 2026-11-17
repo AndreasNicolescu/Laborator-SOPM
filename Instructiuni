@@ -12,6 +12,7 @@ python -m venv .venv
 .venv\Scripts\Activate.ps1
 cd backend
 pip install -r requirements.txt
+pip install pyinstaller
 copy .env.example .env
 
 Terminal 2:
@@ -20,7 +21,7 @@ cd "D:\Visual Studio\Laborator SOPM\weather-chatbot\frontend"
 npm install
 
 
-=== PORNIRE (de fiecare data) ===
+=== PORNIRE IN BROWSER (de fiecare data) ===
 
 Terminal 1 (backend):
 
@@ -37,9 +38,27 @@ npm run dev
 Deschide in browser: http://localhost:5173
 
 
+=== APLICATIE DESKTOP (.exe) ===
+
+-> Pentru a genera executabilul final (installer-ul):
+
+1. Pregatirea backend-ului (Terminal 1 - cu venv activat):
+   cd backend
+   pyinstaller --onefile --windowed run_server.py
+   * Copiaza manual fisierul generat din "backend\dist\run_server.exe" in folderul "frontend\extra\"
+
+2. Crearea executabilului (Terminal 2):
+   cd "D:\Visual Studio\Laborator SOPM\weather-chatbot\frontend"
+   npm run electron:pack
+
+Unde este aplicatia ta?
+In folderul "frontend\release\" vei gasi "Weather Chatbot Setup.exe". 
+Instaleaza-l sau ruleaza-l (acest executabil porneste automat atat interfata cat si serverul Python, fara sa mai deschizi terminale).
+
+
 === OPRIRE ===
 
-Ctrl + C in fiecare terminal.
+Ctrl + C in fiecare terminal (doar pentru varianta de Browser/Dezvoltare).
 
 
 === OPTIONAL: AI (Claude) ===
